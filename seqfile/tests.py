@@ -1,6 +1,6 @@
 import tempfile as _T
-import shutil as _shutil
-import os as _os
+import shutil   as _shutil
+import os       as _os
 from . import seqfile as _S
 from contextlib import contextmanager
 
