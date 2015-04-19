@@ -1,7 +1,7 @@
 seqfile
 =======
 
-|BuildStatus|
+|BuildStatus| |PythonVersions| |PyPiVersion| |License|
 
 Generate sequential file names in a thread-safe way.
 
@@ -57,3 +57,15 @@ the environment) or using ``python setup.py test``.
 
 .. |BuildStatus| image:: https://api.travis-ci.org/musically-ut/seqfile.svg
    :target: https://travis-ci.org/musically-ut/seqfile
+
+.. |PythonVersions| image:: https://pypip.in/py_versions/seqfile/badge.svg
+   :target: https://pypi.python.org/pypi/seqfile/
+   :alt: Supported Python versions
+
+.. |PyPiVersion| image:: https://pypip.in/version/seqfile/badge.svg
+   :target: https://pypi.python.org/pypi/seqfile/
+   :alt: Latest Version
+
+.. |License| image:: https://pypip.in/license/seqfile/badge.svg
+   :target: https://pypi.python.org/pypi/seqfile/
+   :alt: License
