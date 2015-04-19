@@ -1,5 +1,7 @@
-seqfile |Build status| 
-======================
+seqfile
+=======
+
+|BuildStatus|
 
 Generate sequential file names in a thread-safe way.
 
@@ -52,5 +54,6 @@ the environment) or using ``python setup.py test``.
 
 
 .. _PyPi: https://pypi.python.org/pypi
-.. |Build status|: image:: https://api.travis-ci.org/musically-ut/seqfile.svg
+
+.. |BuildStatus| image:: https://api.travis-ci.org/musically-ut/seqfile.svg
    :target: https://travis-ci.org/musically-ut/seqfile
