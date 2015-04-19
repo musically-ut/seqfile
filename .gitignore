@@ -1,3 +1,5 @@
 *.pyc
 .eggs/
 seqfile.egg-info/
+build/
+dist/
