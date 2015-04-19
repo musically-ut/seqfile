@@ -15,8 +15,7 @@ def _doAtomicFileCreation(filePath):
     try:
         _os.close(_os.open(filePath, _os.O_CREAT | _os.O_EXCL))
         return True
-    except OSError as e:
-        print e
+    except OSError:
         return False
 
 
