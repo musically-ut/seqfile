@@ -104,8 +104,9 @@ def findNextFile(folder='.', prefix=None, suffix=None, fnameGen=None, base=0, ma
 
     Raises:
         RuntimeError - If an incorrect combination of arguments is provided.
-        OSError      - If is unable to create a file on the disk.
+        OSError      - If is unable to create a file (wrong path, drive full, etc.).
     """
-    return _findNextFile(folder, prefix, suffix, fnameGen, base, maxattempts, 0)
+    expFolder = _os.path.expanduser(_os.path.expandvars(folder))
+    return _findNextFile(expFolder, prefix, suffix, fnameGen, base, maxattempts, 0)
 
 
