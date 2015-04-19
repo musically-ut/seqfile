@@ -38,7 +38,7 @@ This package is available from PyPi_.
     pip install seqfile
 
 
-You can install the latest version (bleeding edge) this way:
+You can install the bleeding edge directly from the source:
 
 ::
 
@@ -47,7 +47,8 @@ You can install the latest version (bleeding edge) this way:
 Tests
 -----
 
-The tests can be run using ``nosetests`` or ``python setup.py test``.
+The tests can be run using ``nosetests`` (if all dependencies are installed in
+the environment) or using ``python setup.py test``.
 
 
 .. _PyPi: https://pypi.python.org/pypi
