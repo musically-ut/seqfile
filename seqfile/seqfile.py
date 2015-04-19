@@ -1,6 +1,7 @@
 import os      as _os
 import re      as _re
 import glob    as _glob
+import errno   as _errno
 import natsort as _natsort
 
 def _getStrBetween(prefix, s, suffix):
@@ -15,8 +16,11 @@ def _doAtomicFileCreation(filePath):
     try:
         _os.close(_os.open(filePath, _os.O_CREAT | _os.O_EXCL))
         return True
-    except OSError:
-        return False
+    except OSError as e:
+        if e.errno == _errno.EEXIST:
+            return False
+        else:
+            raise e
 
 
 def _findNextFile(folder, prefix, suffix, fnameGen, base, maxattempts, loop):
