@@ -17,7 +17,7 @@ setup(
     packages         = ['seqfile'],
     setup_requires   = ['nose>=1.0', 'natsort>=3.5.6'],
     test_suite       = 'nose.collector',
-    long_description = read('README.md'),
+    long_description = read('README.rst'),
     classifiers      = [
         "License :: OSI Approved :: MIT License",
         "Intended Audience :: Developers",
