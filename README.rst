@@ -13,13 +13,23 @@ you can use this module.
 Installing
 ----------
 
-You can install the latest version this way:
+This package is available from PyPi_.
 
 ::
 
-    pip install git+https://github.com/musically-ut/seqfile.git@feat-installation#egg=seqfile
+    pip install seqfile
+
+
+You can install the latest version (bleeding edge) this way:
+
+::
+
+    pip install git+https://github.com/musically-ut/seqfile.git@master#egg=seqfile
 
 Tests
 -----
 
-The tests can be run using ``nosetests``.
+The tests can be run using ``nosetests`` or ``python setup.py test``.
+
+
+.. _PyPi: https://pypi.python.org/pypi

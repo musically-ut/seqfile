@@ -13,11 +13,12 @@ setup(
     description      = ("Find the next file in a sequence of files in a thread-safe way."),
     license          = "MIT",
     keywords         = "file threadsafe sequence",
+    install_requires = [ "natsort>=3.5.6" ],
     url              = "https://github.com/musically-ut/seqfile",
-    packages         = ['seqfile'],
-    setup_requires   = ['nose>=1.0', 'natsort>=3.5.6'],
-    test_suite       = 'nose.collector',
-    long_description = read('README.rst'),
+    packages         = ["seqfile"],
+    setup_requires   = ["nose>=1.0", "natsort>=3.5.6"],
+    test_suite       = "nose.collector",
+    long_description = read("README.rst"),
     classifiers      = [
         "License :: OSI Approved :: MIT License",
         "Intended Audience :: Developers",
@@ -26,8 +27,8 @@ setup(
         "Operating System :: OS Independent",
         "Topic :: Utilities",
         "License :: OSI Approved :: MIT License",
-        'Programming Language :: Python :: 2.7',
-        'Programming Language :: Python :: 3',
-        "Natural Language :: English",
+        "Programming Language :: Python :: 2.7",
+        "Programming Language :: Python :: 3",
+        "Natural Language :: English"
     ],
 )
