@@ -8,6 +8,11 @@ python:
   - "nightly"
   - "pypy"
 # command to install dependencies
-install: "pip install -r requirements.txt"
+install: 
+  - pip install -r requirements.txt
+  - pip install coveralls
 # command to run tests
-script: python setup.py test
+script: 
+  coverage run --source=seqfile setup.py test
+after_success:
+  coveralls
