@@ -1,6 +1,8 @@
 import tempfile as _T
 import shutil   as _shutil
 import os       as _os
+
+from nose.tools import raises
 from . import seqfile as _S
 from contextlib import contextmanager
 
@@ -21,6 +23,21 @@ fnameGen = lambda x : prefix + str(x) + suffix
 ###########################################################################################
 ## Tests
 ###########################################################################################
+
+@raises(OSError)
+def test_findNextFile_non_existant_destination():
+    with tempDir() as d:
+        assert _S.findNextFile(folder=d + '-non-existant', fnameGen=fnameGen)
+
+@raises(RuntimeError)
+def test_findNextFile_too_many_arguments():
+    with tempDir() as d:
+        assert _S.findNextFile(d, fnameGen=fnameGen, prefix=prefix, suffix=suffix)
+
+@raises(RuntimeError)
+def test_findNextFile_too_few_arguments():
+    with tempDir() as d:
+        assert _S.findNextFile(d)
 
 def test_findNextFile_0_base():
     with tempDir() as d:
