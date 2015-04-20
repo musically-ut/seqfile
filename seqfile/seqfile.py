@@ -28,10 +28,10 @@ def _findNextFile(folder, prefix, suffix, fnameGen, base, maxattempts, loop):
         raise OSError('Unable to create file after ' + str(maxattempts) + ' attempts.')
 
     if prefix is None and fnameGen is None:
-        raise ValueError("Need at least one of prefix or fnameGen to proceed.")
+        raise RuntimeError("Need at least one of prefix or fnameGen to proceed.")
 
     if (prefix is not None or suffix is not None) and fnameGen is not None:
-        raise ValueError("Cannot provide prefix/suffix as well as an fnameGen.")
+        raise RuntimeError("Cannot provide prefix/suffix as well as an fnameGen.")
 
     nextFileIdx = base
 
