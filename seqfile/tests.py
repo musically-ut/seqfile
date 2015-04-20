@@ -115,11 +115,11 @@ def test_findNextFile_with_files_non_consecutive_fnamegen():
 
 # Monkey patch _doAtomicFileCreation for testing
 _S._oldAtomicCreation = _S._doAtomicFileCreation
-def _testAtomicCreationFactory(folder):
+def _testAtomicCreationFactory(predicate):
 
     def _testAtomicCreation(filePath):
         # Create only the first file in the sequence
-        if filePath == join(folder, fnameGen(0)):
+        if predicate(filePath):
             # Create the file to simulate concurrent file creation
             _os.close( _os.open( filePath, _os.O_CREAT | _os.O_EXCL ) )
 
@@ -130,8 +130,18 @@ def _testAtomicCreationFactory(folder):
 
 def test_findNextFile_concurrent():
     with tempDir() as d:
-        _S._doAtomicFileCreation = _testAtomicCreationFactory(d)
+        predicate = lambda filePath: filePath == join(d, fnameGen(0))
+        _S._doAtomicFileCreation = _testAtomicCreationFactory(predicate)
         # File created must be the second file in the sequence
         assert _S.findNextFile(d, prefix, suffix) == join(d, fnameGen(1))
+
+
+@raises(OSError)
+def test_findNextFile_concurrent_max_attempts_fail():
+    with tempDir() as d:
+        # Always create the file, maxattempts will be exhausted
+        predicate = lambda _filePath: True
+        _S._doAtomicFileCreation = _testAtomicCreationFactory(predicate)
+        _S.findNextFile(d, prefix, suffix)
 
 
