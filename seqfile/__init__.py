@@ -1,6 +1,8 @@
 from __future__ import absolute_import
 from .seqfile import findNextFile
 
-__version__ = '0.0.1'
+import pgk_ressources as _pkg
+
+__version__ = _pkg.get_distribution("seqfile").version
 
 __all__ = [ 'findNextFile' ]
