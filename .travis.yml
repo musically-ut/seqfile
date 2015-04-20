@@ -13,6 +13,6 @@ install:
   - pip install coveralls
 # command to run tests
 script: 
-  coverage run --source=seqfile setup.py test
+  coverage run --source=seqfile setup.py nosetests
 after_success:
   coveralls
