@@ -113,10 +113,8 @@ def test_findNextFile_with_files_non_consecutive_fnamegen():
 ## Warning: These tests monkey patch the seqfile.seqfile module!
 ## Hence, these tests must be run last.
 
-import seqfile as _SS
-
 # Monkey patch _doAtomicFileCreation for testing
-_SS._oldAtomicCreation = _SS._doAtomicFileCreation
+_S._oldAtomicCreation = _S._doAtomicFileCreation
 def _testAtomicCreationFactory(folder):
 
     def _testAtomicCreation(filePath):
@@ -125,15 +123,15 @@ def _testAtomicCreationFactory(folder):
             # Create the file to simulate concurrent file creation
             _os.close( _os.open( filePath, _os.O_CREAT | _os.O_EXCL ) )
 
-        return _SS._oldAtomicCreation(filePath)
+        return _S._oldAtomicCreation(filePath)
 
     return _testAtomicCreation
 
 
 def test_findNextFile_concurrent():
     with tempDir() as d:
-        _SS._doAtomicFileCreation = _testAtomicCreationFactory(d)
+        _S._doAtomicFileCreation = _testAtomicCreationFactory(d)
         # File created must be the second file in the sequence
-        assert _SS.findNextFile(d, prefix, suffix) == join(d, fnameGen(1))
+        assert _S.findNextFile(d, prefix, suffix) == join(d, fnameGen(1))
 
 
