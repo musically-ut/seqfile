@@ -45,12 +45,13 @@ def _findNextFile(folder, prefix, suffix, fnameGen, base, maxattempts, loop):
 
         globPattern = lambda x : _os.path.join(folder, prefix + x + suffix)
         allFiles = _natsort.natsorted(_glob.glob(globPattern('*')), alg=_natsort.ns.INT)
-        selectFilesRegEx = _re.compile(globPattern('[0-9]+'))
-        numberedFiles = [ f for f in allFiles if _re.match(selectFilesRegEx, f) ]
+        # Not using complete path here, since Windows paths contain
+        # back-slashes, which will be interpreted as escaped special regex.
+        selectFilesRegEx = _re.compile(prefix + '[0-9]+' + suffix + '$')
+        numberedFiles = [ f for f in allFiles if _re.search(selectFilesRegEx, f) ]
 
         if len(numberedFiles) > 0:
             nextFileIdx = int(_getStrBetween(prefix, numberedFiles[-1], suffix)) + 1
-
 
     if fnameGen is None:
         retFileName = _os.path.join(folder, prefix + str(nextFileIdx) + suffix)
