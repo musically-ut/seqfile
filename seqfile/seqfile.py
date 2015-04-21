@@ -12,7 +12,7 @@ def _getStrBetween(prefix, s, suffix):
     return s[preIdx + len(prefix):sufIdx]
 
 def _doAtomicFileCreation(filePath):
-    """Atomically tries to create the file."""
+    """Tries to atomically create the requested file."""
     try:
         _os.close(_os.open(filePath, _os.O_CREAT | _os.O_EXCL))
         return True
@@ -25,7 +25,7 @@ def _doAtomicFileCreation(filePath):
 
 def _findNextFile(folder, prefix, suffix, fnameGen, base, maxattempts, loop):
     if loop >= maxattempts:
-        raise OSError('Unable to create file after ' + str(maxattempts) + ' attempts.')
+        raise OSError("Unable to create file at " + folder + " after " + str(maxattempts) + " attempts.")
 
     if prefix is None and fnameGen is None:
         raise RuntimeError("Need at least one of prefix or fnameGen to proceed.")
