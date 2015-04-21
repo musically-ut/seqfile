@@ -1,7 +1,7 @@
 seqfile
 =======
 
-|BuildStatus| |Coverage|
+|BuildStatus| |BuildStatusWin| |Coverage|
 |PythonVersions| |PyPiVersion| |License|
 
 Generate sequential file names in a thread-safe way.
@@ -73,3 +73,6 @@ the environment) or using ``python setup.py test``.
 
 .. |Coverage| image:: https://coveralls.io/repos/musically-ut/seqfile/badge.svg?branch=master
    :target: https://coveralls.io/r/musically-ut/seqfile?branch=master
+
+.. |BuildStatusWin| image:: https://ci.appveyor.com/api/projects/status/6x28l2cgqupdjyue?svg=true
+   :target: https://ci.appveyor.com/project/musically-ut/seqfile
