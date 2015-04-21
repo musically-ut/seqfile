@@ -27,7 +27,7 @@ fnameGen = lambda x : prefix + str(x) + suffix
 @raises(OSError)
 def test_findNextFile_non_existant_destination():
     with tempDir() as d:
-        assert _S.findNextFile(folder=d + '-non-existant', fnameGen=fnameGen)
+        assert _S.findNextFile(folder=d + '-non-existent', fnameGen=fnameGen)
 
 @raises(RuntimeError)
 def test_findNextFile_too_many_arguments():
