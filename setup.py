@@ -7,6 +7,7 @@ def read(fname):
 
 setup(
     version='0.1.1.dev0',
+    zip_safe         = True,
     name             = "seqfile",
     author           = "Utkarsh Upadhyay",
     author_email     = "musically.ut@gmail.com",
