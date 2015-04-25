@@ -54,7 +54,7 @@ The tests can be run using ``nosetests`` (if all dependencies are installed in
 the environment) or using ``python setup.py test``.
 
 
-.. _PyPi: https://pypi.python.org/pypi
+.. _PyPi: https://pypi.python.org/pypi/seqfile
 
 .. |BuildStatus| image:: https://api.travis-ci.org/musically-ut/seqfile.svg
    :target: https://travis-ci.org/musically-ut/seqfile
