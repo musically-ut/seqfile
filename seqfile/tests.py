@@ -99,6 +99,14 @@ def test_findNextFile_with_files():
         assert _S.findNextFile(d, prefix, suffix) == join(d, fnameGen(2))
 
 
+def test_findNextFile_with_noisy_files():
+    with tempDir() as d:
+        _S._doAtomicFileCreation(join(d, fnameGen(0)))
+        _S._doAtomicFileCreation(join(d, fnameGen(1)))
+        _S._doAtomicFileCreation(join(d, fnameGen('bar')))
+        assert _S.findNextFile(d, prefix, suffix) == join(d, fnameGen(2))
+
+
 def test_findNextFile_with_files_fnamegen():
     with tempDir() as d:
         _S._doAtomicFileCreation(join(d, fnameGen(0)))
