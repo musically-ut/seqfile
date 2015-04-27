@@ -1,20 +1,22 @@
+# -*- coding: utf-8 -*-
 import tempfile as _T
 import shutil as _shutil
 import os as _os
 import glob
-import pep8
 
 
 from nose.tools import raises
 from . import seqfile as _S
 from contextlib import contextmanager
+import pep8
 
 join = _os.path.join
 
 
 @contextmanager
-def tempDir():
-    d = _T.mkdtemp()
+def tempDir(prefix=None):
+    prefix = '' if prefix is None else prefix
+    d = _T.mkdtemp(prefix=prefix)
     try:
         yield d
     finally:
@@ -144,6 +146,47 @@ def test_findNextFile_with_files_non_consecutive_fnamegen():
         assert _S.findNextFile(d, fnameGen=fnameGen) == join(d, fnameGen(1))
 
 
+def test_findNextFile_with_unicode():
+    with tempDir() as d:
+        prefix, suffix = u'ü', u'.é'
+        assert (_S.findNextFile(d, prefix, suffix) ==
+                join(d, prefix + '0' + suffix))
+
+
+def test_findNextFile_with_unicode_fnamegen():
+    with tempDir() as d:
+        prefix, suffix = u'ü', u'.é'
+
+        def fnameGen(x): return prefix + str(x) + suffix
+        assert (_S.findNextFile(d, fnameGen=fnameGen) ==
+                join(d, prefix + '0' + suffix))
+
+
+def test_findNextFile_with_unicode_with_files():
+    with tempDir() as d:
+        prefix, suffix = u'ü', u'.é'
+        _S._doAtomicFileCreation(join(d,  prefix + '0' + suffix))
+        assert (_S.findNextFile(d, prefix, suffix) ==
+                join(d, prefix + '1' + suffix))
+
+
+def test_findNextFile_with_unicode_with_files_fnameGen():
+    with tempDir() as d:
+        prefix, suffix = u'ü', u'.é'
+
+        def fnameGen(x): return prefix + str(x) + suffix
+        _S._doAtomicFileCreation(join(d,  fnameGen(0)))
+        assert (_S.findNextFile(d, prefix, suffix) ==
+                join(d, prefix + '1' + suffix))
+
+
+def test_findNextFile_with_unicode_folder():
+    with tempDir(u'ü') as d:
+        prefix, suffix = u'ü', u'.é'
+        assert (_S.findNextFile(d, prefix, suffix) ==
+                join(d, prefix + '0' + suffix))
+
+
 ###############################################################################
 # Concurrency Tests
 ###############################################################################
@@ -179,6 +222,15 @@ def test_findNextFile_concurrent():
 @raises(OSError)
 def test_findNextFile_concurrent_max_attempts_fail():
     with tempDir() as d:
+        # Always create the file, maxattempts will be exhausted
+        def predicate(_filePath): return True
+        _S._doAtomicFileCreation = _testAtomicCreationFactory(predicate)
+        _S.findNextFile(d, prefix, suffix)
+
+
+@raises(OSError)
+def test_findNextFile_concurrent_max_attempts_fail_unicode_folder():
+    with tempDir(u'ü') as d:
         # Always create the file, maxattempts will be exhausted
         def predicate(_filePath): return True
         _S._doAtomicFileCreation = _testAtomicCreationFactory(predicate)

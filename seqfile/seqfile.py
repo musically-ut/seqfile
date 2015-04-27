@@ -2,16 +2,9 @@ import os as _os
 import re as _re
 import glob as _glob
 import errno as _errno
+import unicodedata as _u
 
 import natsort as _natsort
-
-
-def _strBetween(prefix, s, suffix):
-    """Return the value inside s between prefix and suffix."""
-    preIdx = s.index(prefix)
-    sufIdx = s.index(suffix)
-
-    return s[preIdx + len(prefix):sufIdx]
 
 
 def _doAtomicFileCreation(filePath):
@@ -44,21 +37,26 @@ def _findNextFile(folder, prefix, suffix, fnameGen, base, maxattempts, loop):
             nextFileIdx += 1
 
     if prefix is not None or suffix is not None:
-        prefix = prefix if prefix is not None else ''
-        suffix = suffix if suffix is not None else ''
+        prefix = prefix if prefix is not None else u''
+        suffix = suffix if suffix is not None else u''
 
-        globPattern = _os.path.join(folder, prefix + '*' + suffix)
-        allFiles = _natsort.natsorted(_glob.glob(globPattern),
-                                      alg=_natsort.ns.INT,
-                                      reverse=True)
+        globPattern = _os.path.join(folder, prefix + u'*' + suffix)
+        allFiles = _glob.glob(_u.normalize('NFD', globPattern))
+        sortedFiles = _natsort.natsorted(allFiles,
+                                         alg=_natsort.ns.INT,
+                                         reverse=True)
+
         # Not using complete path here, since Windows paths contain
         # back-slashes, which will be interpreted as escaped special regex.
-        numFilesRegEx = _re.compile(prefix + '[0-9]+' + suffix + '$')
-        numberedFiles = (f for f in allFiles if _re.search(numFilesRegEx, f))
+        rawRegEx = prefix + u'([0-9]+)' + suffix + u'$'
+        normalizedRegEx = _u.normalize('NFD', rawRegEx)
+        numFilesRegEx = _re.compile(normalizedRegEx, _re.UNICODE)
+        numberedFiles = (_re.search(numFilesRegEx, f) for f in sortedFiles
+                         if _re.search(numFilesRegEx, f))
         lastNumberedFile = next(numberedFiles, None)
 
         if lastNumberedFile is not None:
-            lastFileNum = int(_strBetween(prefix, lastNumberedFile, suffix))
+            lastFileNum = int(lastNumberedFile.group(1))
             nextFileIdx = lastFileNum + 1
 
     if fnameGen is None:
