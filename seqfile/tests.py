@@ -3,7 +3,6 @@ import shutil as _shutil
 import os as _os
 import glob
 import pep8
-import unittest
 
 
 from nose.tools import raises
@@ -32,14 +31,11 @@ prefix, suffix = 'mdl.', '.cPickle'
 # Tests
 ###############################################################################
 
-# PEP8 Test
-class TestCodeFormat(unittest.TestCase):
-    def test_pep8_conformance(self):
-        """Test that we conform to PEP8."""
-        pep8style = pep8.StyleGuide()
-        result = pep8style.check_files(glob.glob('./seqfile/*.py'))
-        self.assertEqual(result.total_errors, 0,
-                         "Found code style errors (and warnings).")
+def test_pep8_conformance():
+    """Test that we conform to PEP8."""
+    pep8style = pep8.StyleGuide()
+    result = pep8style.check_files(glob.glob('./seqfile/*.py'))
+    assert result.total_errors == 0
 
 
 @raises(OSError)
