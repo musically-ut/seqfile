@@ -55,7 +55,7 @@ the environment) or using ``python setup.py test``.
 
 .. _PyPi: https://pypi.python.org/pypi/seqfile
 
-.. |BuildStatus| image:: https://api.travis-ci.org/musically-ut/seqfile.svg
+.. |BuildStatus| image:: https://travis-ci.org/musically-ut/seqfile.svg?branch=master
    :target: https://travis-ci.org/musically-ut/seqfile
 
 .. |PythonVersions| image:: https://pypip.in/py_versions/seqfile/badge.svg
@@ -73,5 +73,5 @@ the environment) or using ``python setup.py test``.
 .. |Coverage| image:: https://coveralls.io/repos/musically-ut/seqfile/badge.svg?branch=master
    :target: https://coveralls.io/r/musically-ut/seqfile?branch=master
 
-.. |BuildStatusWin| image:: https://ci.appveyor.com/api/projects/status/6x28l2cgqupdjyue?svg=true
+.. |BuildStatusWin| image:: https://ci.appveyor.com/api/projects/status/6x28l2cgqupdjyue/branch/master?svg=true
    :target: https://ci.appveyor.com/project/musically-ut/seqfile
