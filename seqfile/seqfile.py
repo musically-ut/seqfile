@@ -3,6 +3,7 @@ import re as _re
 import glob as _glob
 import errno as _errno
 import unicodedata as _u
+import sys as _sys
 
 import natsort as _natsort
 
@@ -41,15 +42,22 @@ def _findNextFile(folder, prefix, suffix, fnameGen, base, maxattempts, loop):
         suffix = suffix if suffix is not None else u''
 
         globPattern = _os.path.join(folder, prefix + u'*' + suffix)
-        allFiles = _glob.glob(_u.normalize('NFD', globPattern))
+        rawRegEx = prefix + u'([0-9]+)' + suffix + u'$'
+
+        # Mac uses NFD normalization for Unicode filenames while windows and
+        # linux use NFC normalization.
+        if _sys.platform == 'darwin':
+            normalizedGlobPattern = _u.normalize('NFD', globPattern)
+            normalizedRegEx = _u.normalize('NFD', rawRegEx)
+        else:
+            normalizedGlobPattern = _u.normalize('NFC', globPattern)
+            normalizedRegEx = _u.normalize('NFC', rawRegEx)
+
+        allFiles = _glob.glob(normalizedGlobPattern)
         sortedFiles = _natsort.natsorted(allFiles,
                                          alg=_natsort.ns.INT,
                                          reverse=True)
 
-        # Not using complete path here, since Windows paths contain
-        # back-slashes, which will be interpreted as escaped special regex.
-        rawRegEx = prefix + u'([0-9]+)' + suffix + u'$'
-        normalizedRegEx = _u.normalize('NFD', rawRegEx)
         numFilesRegEx = _re.compile(normalizedRegEx, _re.UNICODE)
         numberedFiles = (_re.search(numFilesRegEx, f) for f in sortedFiles
                          if _re.search(numFilesRegEx, f))
