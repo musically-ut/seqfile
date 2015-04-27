@@ -52,6 +52,15 @@ Tests
 The tests can be run using ``nosetests`` (if all dependencies are installed in
 the environment) or using ``python setup.py test``.
 
+Caveats
+-------
+
+It is best not to provide unicode characters in the ``prefix``, ``suffix``, or
+``folder``. Though the support has been tested on all major OSes, it has not
+been verfied that all OS/filesystem combinations will work.
+
+Also, the `O_CREAT | O_EXCEL` trick used to create files atomically may not
+work on old linux kernels while writing to an NFS.
 
 .. _PyPi: https://pypi.python.org/pypi/seqfile
 
