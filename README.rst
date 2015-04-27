@@ -2,7 +2,6 @@ seqfile
 =======
 
 |BuildStatus| |BuildStatusWin| |Coverage|
-|PythonVersions| |PyPiVersion| |License|
 
 Generate sequential file names in a thread-safe way.
 
