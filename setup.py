@@ -17,7 +17,7 @@ setup(
     install_requires = [ "natsort>=3.5.6" ],
     url              = "https://github.com/musically-ut/seqfile",
     packages         = ["seqfile"],
-    setup_requires   = ["nose>=1.0", "natsort>=3.5.6"],
+    setup_requires   = ["nose>=1.0", "natsort>=3.5.6", "pep8>=1.6.2"],
     test_suite       = "nose.collector",
     long_description = read("README.rst"),
     classifiers      = [

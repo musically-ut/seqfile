@@ -5,4 +5,4 @@ import pkg_resources as _pkg
 
 __version__ = _pkg.get_distribution("seqfile").version
 
-__all__ = [ 'findNextFile' ]
+__all__ = ['findNextFile']
