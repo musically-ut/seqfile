@@ -46,7 +46,7 @@ def _findNextFile(folder, prefix, suffix, fnameGen, base, maxattempts, loop):
 
         # Mac uses NFD normalization for Unicode filenames while windows and
         # linux use NFC normalization.
-        if _sys.platform == 'darwin':
+        if _sys.platform.startswith('darwin'):
             normalizedGlobPattern = _u.normalize('NFD', globPattern)
             normalizedRegEx = _u.normalize('NFD', rawRegEx)
         else:
