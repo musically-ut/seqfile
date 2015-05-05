@@ -4,10 +4,14 @@ import os as _os
 import glob
 import pep8
 
-
 from nose.tools import raises
 from . import seqfile as _S
 from contextlib import contextmanager
+
+try:
+    from StringIO import StringIO
+except ImportError:
+    from io import StringIO
 
 join = _os.path.join
 
@@ -22,6 +26,12 @@ def tempDir():
 
 
 def fnameGen(x): return prefix + str(x) + suffix
+
+
+def execRun(*args):
+    stderr, stdout = StringIO(), StringIO()
+    _S._run(args, stderr, stdout)
+    return stderr.getvalue().strip(), stdout.getvalue().strip()
 
 
 prefix, suffix = 'mdl.', '.cPickle'
@@ -62,6 +72,12 @@ def test_findNextFile_0_base():
                join(d, prefix + str(0) + suffix)
 
 
+def test_findNextFile_0_base_exec():
+    with tempDir() as d:
+        stderr, stdout = execRun(prefix, suffix, d)
+        assert stdout == join(d, prefix + str(0) + suffix)
+
+
 def test_findNextFile_0_base_fnamegen():
     with tempDir() as d:
         assert _S.findNextFile(folder=d, fnameGen=fnameGen, base=0) == \
@@ -72,6 +88,12 @@ def test_findNextFile_1_base():
     with tempDir() as d:
         assert _S.findNextFile(d, prefix, suffix, base=1) == \
                join(d, fnameGen(1))
+
+
+def test_findNextFile_1_base_exec():
+    with tempDir() as d:
+        stderr, stdout = execRun(prefix, suffix, d, "--base=1")
+        assert stdout == join(d, prefix + str(1) + suffix)
 
 
 def test_findNextFile_1_base_fnamegen():
@@ -183,3 +205,12 @@ def test_findNextFile_concurrent_max_attempts_fail():
         def predicate(_filePath): return True
         _S._doAtomicFileCreation = _testAtomicCreationFactory(predicate)
         _S.findNextFile(d, prefix, suffix)
+
+
+@raises(SystemExit)
+def test_findNextFile_exec_concurrent_max_attempts_fail():
+    with tempDir() as d:
+        # Always create the file, maxattempts will be exhausted
+        def predicate(_filePath): return True
+        _S._doAtomicFileCreation = _testAtomicCreationFactory(predicate)
+        execRun(prefix, suffix, d)

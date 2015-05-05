@@ -30,7 +30,8 @@ def _doAtomicFileCreation(filePath):
 
 def _findNextFile(folder, prefix, suffix, fnameGen, base, maxattempts, loop):
     if loop >= maxattempts:
-        raise OSError("Unable to create file at " + folder +
+        raise OSError(_errno.EEXIST,
+                      "Unable to create file at " + folder +
                       " after " + str(maxattempts) + " attempts.")
 
     if prefix is None and fnameGen is None:
@@ -131,11 +132,10 @@ def findNextFile(folder='.',
                          base, maxattempts, 0)
 
 
-def _run(passedArgs=None, stderr=None, stdout=None):
+def _run(passedArgs=None, stderr=None, stdout=None, exitFn=None):
     """Executes the script, gets prefix/suffix from the command prompt and
-    produces output on STDOUT.
-
-    For help with command line options, invoke script with '--help'.
+    produces output on STDOUT. For help with command line options, invoke
+    script with '--help'.
     """
 
     description = """Finds the next available file-name in a sequence.
@@ -182,10 +182,8 @@ def _run(passedArgs=None, stderr=None, stdout=None):
                            help='From where to start counting (default: 0).',
                            default=0)
 
-    if passedArgs is None:
-        args = argParser.parse_args()
-    else:
-        args = argParser.parse_args(passedArgs)
+    passedArgs = passedArgs if passedArgs is not None else _sys.argv[1:]
+    args = argParser.parse_args(passedArgs)
 
     stdout = _sys.stdout if stdout is None else stdout
     stderr = _sys.stderr if stderr is None else stderr
@@ -200,5 +198,5 @@ def _run(passedArgs=None, stderr=None, stdout=None):
         # Hence, we do not need to explicitly print out `\r\n` for Windows.
         stdout.write(nextFile + '\n')
     except OSError as e:
-        stderr.write(_os.strerror(e.errno))
+        stderr.write(_os.strerror(e.errno) + '\n')
         _sys.exit(e.errno)
