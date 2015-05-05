@@ -1,6 +1,5 @@
 import os as _os
 import re as _re
-import glob as _glob
 import errno as _errno
 import unicodedata as _u
 import sys as _sys
@@ -19,6 +18,28 @@ def _doAtomicFileCreation(filePath):
             return False
         else:
             raise e
+
+
+# From: http://stackoverflow.com/a/29972288/987185
+def _unicodeGlob(pattern, folder):
+    regEx = _re.compile(_u.normalize('NFC', pattern), _re.UNICODE)
+    results = []
+    enc = _sys.getfilesystemencoding()
+
+    for name in _os.listdir(folder):
+        if isinstance(name, bytes):
+            try:
+                name = name.decode(enc)
+            except UnicodeDecodeError:
+                # Filenames which are invalid Unicode will not match any
+                # pattern
+                continue
+
+        match = _re.search(regEx, _u.normalize('NFC', name))
+        if match is not None:
+            results.append((match, name))
+
+    return results
 
 
 def _findNextFile(folder, prefix, suffix, fnameGen, base, maxattempts, loop):
@@ -43,30 +64,16 @@ def _findNextFile(folder, prefix, suffix, fnameGen, base, maxattempts, loop):
         prefix = prefix if prefix is not None else u''
         suffix = suffix if suffix is not None else u''
 
-        globPattern = _os.path.join(folder, prefix + u'*' + suffix)
-        rawRegEx = prefix + u'([0-9]+)' + suffix + u'$'
+        pattern = prefix + u'(?P<seqNumber>[0-9]+)' + suffix + u'$'
 
-        # Mac uses NFD normalization for Unicode filenames while windows and
-        # linux use NFC normalization.
-        if _sys.platform.startswith('darwin'):
-            normalizedGlobPattern = _u.normalize('NFD', globPattern)
-            normalizedRegEx = _u.normalize('NFD', rawRegEx)
-        else:
-            normalizedGlobPattern = _u.normalize('NFC', globPattern)
-            normalizedRegEx = _u.normalize('NFC', rawRegEx)
-
-        allFiles = _glob.glob(normalizedGlobPattern)
+        allFiles = _unicodeGlob(pattern, folder)
         sortedFiles = _natsort.natsorted(allFiles,
+                                         key=lambda x: x[1],
                                          alg=_natsort.ns.INT,
                                          reverse=True)
 
-        numFilesRegEx = _re.compile(normalizedRegEx, _re.UNICODE)
-        numberedFiles = (_re.search(numFilesRegEx, f) for f in sortedFiles
-                         if _re.search(numFilesRegEx, f))
-        lastNumberedFile = next(numberedFiles, None)
-
-        if lastNumberedFile is not None:
-            lastFileNum = int(lastNumberedFile.group(1))
+        if len(sortedFiles) > 0:
+            lastFileNum = int(sortedFiles[0][0].group('seqNumber'))
             nextFileIdx = lastFileNum + 1
 
     if fnameGen is None:
