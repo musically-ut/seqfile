@@ -10,7 +10,24 @@ Usage
 
 If you want to create sequential files to write output to (say from
 different threads or from consecutive runs of the same program), then
-you can use this module.
+you can use this module from within your program or from the command
+line.
+
+From the commandline
+~~~~~~~~~~~~~~~~~~~~
+
+::
+
+    $ seqfile
+    usage: seqfile [-h] [-m MAX_ATTEMPTS] [-b BASE] prefix [suffix] [folder]
+    seqfile: error: too few arguments
+
+    # Assume files "./a.0.txt" and "./a.3.txt" exist.
+    $ seqfile a. .txt .
+    ./a.4.txt
+
+From your program
+~~~~~~~~~~~~~~~~~
 
 ::
 
@@ -29,16 +46,14 @@ you can use this module.
 
 The returned file will exist, be empty, and can be opened for writing.
 
-
 Installing
 ----------
 
-This package is available from PyPi_.
+This package is available from `PyPi <https://pypi.python.org/pypi/seqfile>`.
 
 ::
 
     pip install seqfile
-
 
 You can install the bleeding edge directly from the source:
 
@@ -49,29 +64,21 @@ You can install the bleeding edge directly from the source:
 Tests
 -----
 
-The tests can be run using ``nosetests`` (if all dependencies are installed in
-the environment) or using ``python setup.py test``.
-
-
-.. _PyPi: https://pypi.python.org/pypi/seqfile
+The tests can be run using ``nosetests`` (if all dependencies are
+installed in the environment) or using ``python setup.py test``.
 
 .. |BuildStatus| image:: https://api.travis-ci.org/musically-ut/seqfile.svg
    :target: https://travis-ci.org/musically-ut/seqfile
-
+.. |BuildStatusWin| image:: https://ci.appveyor.com/api/projects/status/6x28l2cgqupdjyue?svg=true
+   :target: https://ci.appveyor.com/project/musically-ut/seqfile
+.. |Coverage| image:: https://coveralls.io/repos/musically-ut/seqfile/badge.svg?branch=master
+   :target: https://coveralls.io/r/musically-ut/seqfile?branch=master
 .. |PythonVersions| image:: https://pypip.in/py_versions/seqfile/badge.svg
    :target: https://pypi.python.org/pypi/seqfile/
    :alt: Supported Python versions
-
 .. |PyPiVersion| image:: https://pypip.in/version/seqfile/badge.svg
    :target: https://pypi.python.org/pypi/seqfile/
    :alt: Latest Version
-
 .. |License| image:: https://pypip.in/license/seqfile/badge.svg
    :target: https://pypi.python.org/pypi/seqfile/
    :alt: License
-
-.. |Coverage| image:: https://coveralls.io/repos/musically-ut/seqfile/badge.svg?branch=master
-   :target: https://coveralls.io/r/musically-ut/seqfile?branch=master
-
-.. |BuildStatusWin| image:: https://ci.appveyor.com/api/projects/status/6x28l2cgqupdjyue?svg=true
-   :target: https://ci.appveyor.com/project/musically-ut/seqfile
