@@ -2,19 +2,13 @@
 import tempfile as _T
 import shutil as _shutil
 import os as _os
-import glob
+import glob as _glob
+from io import StringIO as _StringIO
 
 from nose.tools import raises
 from . import seqfile as _S
 from contextlib import contextmanager
 import pep8
-
-try:
-    from StringIO import StringIO
-except ImportError:
-    from io import StringIO
-
-join = _os.path.join
 
 
 @contextmanager
@@ -31,12 +25,13 @@ def fnameGen(x): return prefix + str(x) + suffix
 
 
 def execRun(*args):
-    stderr, stdout = StringIO(), StringIO()
+    stderr, stdout = _StringIO(), _StringIO()
     _S._run(args, stderr, stdout)
     return stderr.getvalue().strip(), stdout.getvalue().strip()
 
 
 prefix, suffix = 'mdl.', '.cPickle'
+join = _os.path.join
 
 
 ###############################################################################
@@ -46,7 +41,7 @@ prefix, suffix = 'mdl.', '.cPickle'
 def test_pep8_conformance():
     """Test that we conform to PEP8."""
     pep8style = pep8.StyleGuide()
-    result = pep8style.check_files(glob.glob('./seqfile/*.py'))
+    result = pep8style.check_files(_glob.glob('./seqfile/*.py'))
     assert result.total_errors == 0
 
 
@@ -129,6 +124,12 @@ def test_findNextFile_with_noisy_files():
         _S._doAtomicFileCreation(join(d, fnameGen(1)))
         _S._doAtomicFileCreation(join(d, fnameGen('bar')))
         assert _S.findNextFile(d, prefix, suffix) == join(d, fnameGen(2))
+
+
+def test_findNextFile_with_regex_compat_files():
+    with tempDir() as d:
+        _S._doAtomicFileCreation(join(d, fnameGen(0).replace('.', 'X')))
+        assert _S.findNextFile(d, prefix, suffix) == join(d, fnameGen(0))
 
 
 def test_findNextFile_with_files_fnamegen():

@@ -64,7 +64,8 @@ def _findNextFile(folder, prefix, suffix, fnameGen, base, maxattempts, loop):
         prefix = prefix if prefix is not None else u''
         suffix = suffix if suffix is not None else u''
 
-        pattern = prefix + u'(?P<seqNumber>[0-9]+)' + suffix + u'$'
+        pattern = (_re.escape(prefix) + u'(?P<seqNumber>[0-9]+)' +
+                   _re.escape(suffix) + u'$')
 
         allFiles = _unicodeGlob(pattern, folder)
         sortedFiles = _natsort.natsorted(allFiles,
@@ -208,7 +209,7 @@ def _run(passedArgs=None, stderr=None, stdout=None, exitFn=None):
         # The newline will be converted to the correct platform specific line
         # ending as `sys.stdout` is opened in non-binary mode.
         # Hence, we do not need to explicitly print out `\r\n` for Windows.
-        stdout.write(nextFile + '\n')
+        stdout.write(nextFile + u'\n')
     except OSError as e:
-        stderr.write(_os.strerror(e.errno) + '\n')
+        stderr.write(_os.strerror(e.errno) + u'\n')
         _sys.exit(e.errno)
