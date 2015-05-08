@@ -1,3 +1,7 @@
 recursive-include seqfile *
 include *
 global-exclude *.pyc
+global-exclude *.orig
+global-exclude *~
+global-exclude *.swp
+global-exclude *.swo
