@@ -10,7 +10,7 @@ def read(fname):
 REQUIRES = ["argparse"] if sys.version[:3] in ('2.6', '3.0', '3.1') else []
 
 setup(
-    version='0.1.1.dev0',
+    version='0.2.0',
     zip_safe         = True,
     name             = "seqfile",
     author           = "Utkarsh Upadhyay",
