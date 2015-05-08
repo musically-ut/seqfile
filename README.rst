@@ -26,6 +26,13 @@ From the commandline
     $ seqfile a. .txt .
     ./a.4.txt
 
+    # Assume no other files exist.
+    # This will create files 100 files with names test.*.txt in the current
+    # folder.
+    $ seq 100 | xargs -n 1 -P 100 -I{} \
+        bash -c "fname=\$(seqfile test. .txt); \
+                 echo 'Do something awesome with {}' > \$fname"
+
 From your program
 ~~~~~~~~~~~~~~~~~
 
