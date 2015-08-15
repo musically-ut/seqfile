@@ -56,7 +56,7 @@ The returned file will exist, be empty, and can be opened for writing.
 Installing
 ----------
 
-This package is available from `PyPi <https://pypi.python.org/pypi/seqfile>`.
+This package is available from `PyPi <https://pypi.python.org/pypi/seqfile>`_.
 
 ::
 
@@ -81,7 +81,7 @@ It is best not to provide unicode characters in the ``prefix``, ``suffix``, or
 ``folder``. Though the support has been tested on all major OSes, it has not
 been verfied that all OS/filesystem combinations will work.
 
-Also, the `O_CREAT | O_EXCEL` trick used to create files atomically may not
+Also, the ``O_CREAT | O_EXCEL`` trick used to create files atomically may not
 work on old linux kernels while writing to an NFS.
 
 
