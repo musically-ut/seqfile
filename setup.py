@@ -27,7 +27,6 @@ setup(
     entry_points     = {"console_scripts": [ "seqfile = seqfile.seqfile:_run" ]
                        },
     classifiers      = [
-        "License :: OSI Approved :: MIT License",
         "Intended Audience :: Developers",
         "Intended Audience :: Science/Research",
         "Development Status :: 3 - Alpha",
