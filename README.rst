@@ -16,7 +16,7 @@ line.
 From the commandline
 ~~~~~~~~~~~~~~~~~~~~
 
-::
+.. code:: sh
 
     $ seqfile
     usage: seqfile [-h] [-m MAX_ATTEMPTS] [-b BASE] prefix [suffix] [folder]
@@ -36,7 +36,7 @@ From the commandline
 From your program
 ~~~~~~~~~~~~~~~~~
 
-::
+.. code:: python
 
     # Assume files "./a.0.txt" and "./a.3.txt" exist.
     >> import seqfile
