@@ -51,7 +51,7 @@ From your program
     >> seqfile.findNextFile('.', fnameGen=lambda x: 'a.' + str(x) + '.txt')
     './a.1.txt'
 
-The returned file will exist, be empty, and can be opened for writing.
+The returned file will exist, will be empty, and can be opened for writing.
 
 Installing
 ----------
