@@ -91,12 +91,12 @@ work on old linux kernels while writing to an NFS.
    :target: https://ci.appveyor.com/project/musically-ut/seqfile
 .. |Coverage| image:: https://coveralls.io/repos/musically-ut/seqfile/badge.svg?branch=master
    :target: https://coveralls.io/r/musically-ut/seqfile?branch=master
-.. |PythonVersions| image:: https://pypip.in/py_versions/seqfile/badge.svg
+.. |PythonVersions| image:: https://img.shields.io/pypi/pyversions/seqfile.svg
    :target: https://pypi.python.org/pypi/seqfile/
    :alt: Supported Python versions
-.. |PyPiVersion| image:: https://pypip.in/version/seqfile/badge.svg
+.. |PyPiVersion| image:: https://img.shields.io/pypi/v/seqfile.svg
    :target: https://pypi.python.org/pypi/seqfile/
    :alt: Latest Version
-.. |License| image:: https://pypip.in/license/seqfile/badge.svg
+.. |License| image:: https://img.shields.io/pypi/l/seqfile.svg
    :target: https://pypi.python.org/pypi/seqfile/
    :alt: License
